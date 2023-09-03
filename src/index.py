@@ -1,9 +1,13 @@
 from fastapi import FastAPI
 from douyin_tiktok_scraper.scraper import Scraper
-from dtos.Tiktok import TikTikDto
+from pydantic import BaseModel
 
 app = FastAPI()
 api = Scraper()
+
+
+class TikTikDto(BaseModel):
+    url: str
 
 
 def can_download(result):
