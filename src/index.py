@@ -42,8 +42,8 @@ async def tiktok(url: str):
         }
         result = await hybrid_parsing(url=url)
         if result_map[result]:
-            return {'code': 1, 'msg': result_map[result], result: None}
+            return {'code': 1, 'msg': result_map[result], 'data': None}
         else:
-            return {'code': 0, url: result, 'msg': 'success'}
+            return {'code': 0, 'data': result, 'msg': 'success'}
     except Exception as e:
-        return {'code': 1, 'msg': str(e), result: None}
+        return {'code': 1, 'msg': str(e), 'data': None}
