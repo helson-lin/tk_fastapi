@@ -20,7 +20,7 @@ async def hybrid_parsing(url: str):
     print(result['status'])
     if result['status'] == 'success':
         video_url = can_download(result)
-        if video_url == None:
+        if video_url is None:
             return 1
         else:
             return video_url
@@ -40,7 +40,7 @@ async def tiktok(dto: TikTikDto):
             1: '视频主没有开放下载权限',
             0: '解析失败'
         }
-        result = await hybrid_parsing(url=dto.url)
+        result = await hybrid_parsing(dto.url)
         if result_map[result]:
             return {'code': 1, 'msg': result_map[result], 'data': None}
         else:
