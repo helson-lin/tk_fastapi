@@ -21,11 +21,11 @@ async def hybrid_parsing(url: str):
     if result['status'] == 'success':
         video_url = can_download(result)
         if video_url == None:
-            return '视频主没有开放下载权限'
+            return 1
         else:
             return video_url
     else:
-        return '解析失败'
+        return 0
 
 
 @app.get("/")
@@ -36,8 +36,14 @@ async def root():
 @app.get("/tiktok")
 async def tiktok(url: str):
     try:
-        print(url)
+        result_map = {
+            1: '视频主没有开放下载权限',
+            0: '解析失败'
+        }
         result = await hybrid_parsing(url=url)
-        return result
+        if result_map[result]:
+            return {'code': 1, 'msg': result_map[result], result: None}
+        else:
+            return {'code': 0, url: result, 'msg': 'success'}
     except Exception as e:
-        return {"error": str(e)}
+        return {'code': 1, 'msg': str(e), result: None}
