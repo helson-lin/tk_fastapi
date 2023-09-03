@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from douyin_tiktok_scraper.scraper import Scraper
-from src.dtos.ISayHelloDto import ISayHelloDto
+from dtos.Tiktok import TikTikDto
 
 app = FastAPI()
 api = Scraper()
@@ -33,14 +33,14 @@ async def root():
     return {"message": "server is running"}
 
 
-@app.get("/tiktok")
-async def tiktok(url: str):
+@app.post("/tiktok")
+async def tiktok(dto: TikTikDto):
     try:
         result_map = {
             1: '视频主没有开放下载权限',
             0: '解析失败'
         }
-        result = await hybrid_parsing(url=url)
+        result = await hybrid_parsing(url=dto.url)
         if result_map[result]:
             return {'code': 1, 'msg': result_map[result], 'data': None}
         else:
